@@ -66,6 +66,8 @@ $result | Foreach-Object  {
                                     $FileDeletedName = "FileName: "  + $_.FileName +"|" + " Size: " + $_.FileSize +"|" + " CreationTime: " + $_.CreationTime +"|" + " ModifiedTime: " + $_.LastWriteTime
                                     $FileDeletedName >> $LogDir"Deleted-$DateTime.txt"
                                     Write-host "Name: $FileDeletedName"   "Size: $FileDeletedSize"  $LogDir"Deleted-$DateTime.txt"
+                                    if ($_.FileName -notmatch "Deleted-")
+                                     {Write-host "Name: $FileDeletedName"   "Size: $FileDeletedSize"  $LogDir"Deleted-$DateTime.txt"}
                              
                             } 
 if (!$TestMode)
