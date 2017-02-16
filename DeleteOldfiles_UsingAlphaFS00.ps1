@@ -32,7 +32,7 @@ $FileExists = Test-Path $path
 
 $dirEnumOptions = [Alphaleonis.Win32.Filesystem.DirectoryEnumerationOptions]::Recursive -bor
                   [Alphaleonis.Win32.Filesystem.DirectoryEnumerationOptions]::SkipReparsePoints -bor
-                  [Alphaleonis.Win32.Filesystem.DirectoryEnumerationOptions]::FilesAndFolders -bor
+                  [Alphaleonis.Win32.Filesystem.DirectoryEnumerationOptions]::Files -bor
                   [Alphaleonis.Win32.Filesystem.DirectoryEnumerationOptions]::LargeCache -bor
                   [Alphaleonis.Win32.Filesystem.DirectoryEnumerationOptions]::ContinueOnException
 
