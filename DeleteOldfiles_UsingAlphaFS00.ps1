@@ -6,8 +6,8 @@
 #----------------------------------------------------------------
 $path =  "\\server\share"
 #$path =  "c:\logs"
-#$extensions = ".csv|.bak|.evtx|.xls|.csv|.xlsx"
-$extensions = ".*"
+#$extensions = '\.doc|\.xls|\.txt|\.bat|\.log'
+$extensions = '\.*'
 $TestMode = $False
 $DeleteBasedOnCreationTime = $True #False will use ModificationTime
 $Daysback = "-6"
@@ -43,16 +43,16 @@ $fsei = $dirs | Foreach-Object { [Alphaleonis.Win32.Filesystem.File]::GetFileSys
 if ($DeleteBasedOnCreationTime)
 {
     if ($DeleteFolders)
-        {$result = $fsei| Where-Object {$_.CreationTime -lt $DatetoDelete -and $_.FileName -match $extensions}}
+        {$result = $fsei| Where-Object {$_.CreationTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions}}
     else
-        {$result = $fsei| Where-Object {$_.CreationTime -lt $DatetoDelete -and $_.FileName -match $extensions -and $_.FileName -notmatch "Deleted-"} }
+        {$result = $fsei| Where-Object {$_.CreationTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions -and $_.FileName -notmatch "Deleted-"} }
 }
 else
 {
     if ($DeleteFolders)
-        {$result = $fsei| Where-Object {$_.LastWriteTime -lt $DatetoDelete -and $_.FileName -match $extensions} }
+        {$result = $fsei| Where-Object {$_.LastWriteTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions} }
     else
-        {$result = $fsei| Where-Object {$_.LastWriteTime -lt $DatetoDelete -and $_.FileName -match $extensions -and $_.FileName -notmatch "Deleted-"}}
+        {$result = $fsei| Where-Object {$_.LastWriteTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions -and $_.FileName -notmatch "Deleted-"}}
 
     
 }
@@ -64,10 +64,10 @@ else
 $result | Foreach-Object  { 
                                     $LogDir = $_.FullPath.Substring(0,$_.FullPath.Length - $_.FileName.Length)
                                     $FileDeletedName = "FileName: "  + $_.FileName +"|" + " Size: " + $_.FileSize +"|" + " CreationTime: " + $_.CreationTime +"|" + " ModifiedTime: " + $_.LastWriteTime
-                                    $FileDeletedName >> $LogDir"Deleted-$DateTime.txt"
-                                    Write-host "Name: $FileDeletedName"   "Size: $FileDeletedSize"  $LogDir"Deleted-$DateTime.txt"
-                                    if ($_.FileName -notmatch "Deleted-")
-                                     {Write-host "Name: $FileDeletedName"   "Size: $FileDeletedSize"  $LogDir"Deleted-$DateTime.txt"}
+                                    if ($_.FileName -notmatch "Deleted-*")
+                                    { 
+                                     $FileDeletedName >> $LogDir"Deleted-$DateTime.txt"
+                                     Write-host $_.FullPath  $_.LastWriteTime  $DatetoDelete ($_.LastWriteTime -lt $DatetoDelete) ($_.FileName.Substring($_.FileName.Length - 5) -match $extensions)  }
                              
                             } 
 if (!$TestMode)
