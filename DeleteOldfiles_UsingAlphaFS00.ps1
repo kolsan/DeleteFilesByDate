@@ -3,6 +3,7 @@
 # Koldo Santisteban 2017
 # This script delete files based on date criteria and write output file in the correspond Directory
 # allowing end users to know it
+# Powershell version 5 (superior not tested) is mandatory
 #----------------------------------------------------------------
 $path =  "\\server\share"
 #$path =  "c:\logs"
