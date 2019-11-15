@@ -46,14 +46,14 @@ if ($DeleteBasedOnCreationTime)
     if ($DeleteFolders)
         {$result = $fsei| Where-Object {$_.CreationTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions}}
     else
-        {$result = $fsei| Where-Object {$_.CreationTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions -and $_.FileName -notmatch "Deleted-"} }
+        {$result = $fsei| Where-Object {$_.CreationTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions -and $_.FileName -notmatch "Deleted-*"} }
 }
 else
 {
     if ($DeleteFolders)
         {$result = $fsei| Where-Object {$_.LastWriteTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions} }
     else
-        {$result = $fsei| Where-Object {$_.LastWriteTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions -and $_.FileName -notmatch "Deleted-"}}
+        {$result = $fsei| Where-Object {$_.LastWriteTime -lt $DatetoDelete -and $_.FileName.Substring($_.FileName.Length - 5) -match $extensions -and $_.FileName -notmatch "Deleted-*"}}
 
     
 }
